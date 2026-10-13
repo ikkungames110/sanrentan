@@ -33,3 +33,9 @@ npm test
 - ホストがブラウザを閉じると部屋は解散します。ゲストは通信が切れても自動で再接続し、同じ席に戻れます。
 - 切断したままのプレイヤーはホストが「除外」できます。
 - 厳しい NAT 環境では `VITE_TURN_URL` / `VITE_TURN_USER` / `VITE_TURN_PASS` を設定して TURN を使ってください。
+
+## デプロイ
+Cloudflare Pages（https://sanrentan-8hh.pages.dev/）。wrangler が Vite 設定の自動変更を試みるため、プロジェクト外のディレクトリから実行します。
+```
+npm run build && (cd /tmp && npx wrangler pages deploy "$OLDPWD/dist" --project-name sanrentan --branch main)
+```
