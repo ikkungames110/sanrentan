@@ -1,0 +1,31 @@
+#list-app { max-width: 960px; margin: 0 auto; padding-bottom: env(safe-area-inset-bottom); }
+.list-head {
+  position: sticky; top: 0; z-index: 10; padding: calc(10px + env(safe-area-inset-top)) 14px 10px;
+  background: rgba(27, 20, 48, .94); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line);
+}
+.list-head h1 { margin: 4px 0 8px; font-size: 22px; }
+.list-head h1 small { color: var(--mute); font-size: 14px; font-weight: 400; }
+.back { color: var(--mute); text-decoration: none; font-size: 14px; }
+#search {
+  width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line);
+  background: var(--bg2); color: var(--text); font-size: 16px;
+}
+.chips { display: flex; gap: 6px; overflow-x: auto; padding: 8px 0 2px; scrollbar-width: none; }
+.chip { flex: none; padding: 6px 12px; border-radius: 99px; background: var(--card); color: var(--mute); font-size: 14px; border: 1px solid var(--line); }
+.chip small { opacity: .7; }
+.chip.on { background: var(--accent); color: #2a1a00; font-weight: 700; border-color: var(--accent); }
+.list-body { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; padding: 12px 14px 40px; }
+.tcard { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; break-inside: avoid; }
+.tmeta { display: flex; justify-content: space-between; font-size: 12px; color: var(--mute); }
+.tmeta .cat { padding: 1px 8px; border-radius: 99px; background: var(--bg2); }
+.tcard h2 { font-size: 18px; margin: 4px 0 10px; }
+.tcard ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.tcard li { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+.tcard .lt { width: 26px; height: 26px; font-size: 13px; }
+@media print {
+  body { background: #fff; color: #000; }
+  .list-head input, .chips, .back { display: none; }
+  .list-head { position: static; background: none; }
+  .tcard { background: #fff; border-color: #ccc; }
+  .tcard .lt { background: #eee; }
+}

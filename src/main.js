@@ -238,6 +238,7 @@ function homeHtml() {
     </div>
     ${last ? `<button class="ghost" data-act="rejoin">前回の部屋（${esc(last.code)}）に戻る</button>` : ''}
     <button class="ghost" data-act="rules">あそびかた</button>
+    <a class="ghost" href="./topics.html">お題一覧を見る</a>
   </div>`;
 }
 

@@ -26,7 +26,7 @@ npm run dev     # スマホからは http://<PCのIP>:5173
 npm run build   # dist/ を静的ホスティングへ
 npm test
 ```
-お題は `src/topics.js` に追加できます（1お題につき候補7つ）。
+お題は `src/topics.js` に追加できます（1お題につき候補7つ）。一覧は `/topics.html` で確認できます。
 
 ## 通信について
 - ホスト端末が進行役となり、各プレイヤーと WebRTC で直接つながります（シグナリングのみ PeerJS 公開ブローカー）。

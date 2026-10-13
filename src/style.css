@@ -37,7 +37,7 @@ input { font: inherit; }
 .primary.alt { background: linear-gradient(180deg, #ff7aa0, var(--accent2)); color: #fff; box-shadow: 0 4px 0 #a8284f; }
 .primary.small { padding: 10px; font-size: 15px; }
 .primary.sticky { position: sticky; bottom: calc(10px + env(safe-area-inset-bottom)); z-index: 5; }
-.ghost { display: block; width: 100%; padding: 12px; margin: 6px 0; color: var(--mute); border: 1px solid var(--line); border-radius: var(--radius); }
+.ghost { display: block; text-align: center; text-decoration: none; font-size: 16px; width: 100%; padding: 12px; margin: 6px 0; color: var(--mute); border: 1px solid var(--line); border-radius: var(--radius); }
 .ghost.small { padding: 8px; margin-top: 10px; }
 
 .center { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; min-height: 60dvh; padding: 24px; text-align: center; }
