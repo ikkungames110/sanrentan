@@ -34,3 +34,20 @@ test('1ラウンド通しで進行し最終結果になる', () => {
   assert.equal(g.phase, 'final');
   assert.deepEqual(g.players.map((p) => p.score), [12, 12, 12]);
 });
+
+test('公開は出題者のみ。出題者が切断中ならホストが代行できる', () => {
+  const g = createGame('h', 'ホスト');
+  addPlayer(g, 'a', 'A');
+  addPlayer(g, 'b', 'B');
+  act(g, 'h', { type: 'start' });
+  const s = g.setterId;
+  act(g, s, { type: 'pickTopic', index: 1 });
+  for (const id of g.order) act(g, id, { type: 'submit', sel: id === s ? [0, 1, 2, 3] : [0, 1, 2] });
+  const other = g.order.find((x) => x !== s && x !== 'h');
+  assert.notEqual(act(g, other, { type: 'advance' }), null);
+  if (s !== 'h') {
+    assert.notEqual(act(g, 'h', { type: 'advance' }), null);
+    g.players.find((p) => p.id === s).connected = false;
+    assert.equal(act(g, 'h', { type: 'advance' }), null);
+  }
+});

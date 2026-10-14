@@ -206,6 +206,9 @@ function toast(msg) {
 const localName = () => localStorage.getItem(NAME_KEY) || '';
 const nameOf = (id) => ui.v?.players.find((p) => p.id === id)?.name ?? '（退出）';
 const isHost = () => ui.role === 'host';
+// 公開・進行は出題者のみ。出題者が抜けた・切断中のときだけホストが代行できる
+const setterAway = () => !ui.v.players.find((p) => p.id === ui.v.setterId)?.connected;
+const canProgress = () => ui.v.setterId === myId || (isHost() && setterAway());
 const shareUrl = () => `${location.origin}${location.pathname}?room=${ui.roomCode}`;
 
 // ───────── 描画 ─────────
@@ -452,7 +455,7 @@ function revealHtml() {
     spot = `<div class="spot big ${last === 'sd' ? 'bomb' : ''}"><div class="spot-label">${stepLabel(last)}は…</div>
       <div class="spot-ans"><span class="lt">${LETTERS[x]}</span>${esc(v.topic.o[x])}</div></div>`;
   }
-  const canGo = v.setterId === myId || isHost();
+  const canGo = canProgress();
   const nextLabel = v.step < v.steps.length ? `${stepLabel(v.steps[v.step])}を公開` : '得点を見る';
   const hint = v.setterId === myId && last?.startsWith('s') ? '<p class="note center-text">選んだ理由を話してから次へどうぞ</p>' : '';
   return `
@@ -461,7 +464,7 @@ function revealHtml() {
   ${revealTable()}
   ${hint}
   ${canGo
-    ? `<button class="primary sticky" data-act="advance">${nextLabel}</button>${v.setterId !== myId ? '<p class="note center-text">（ホスト権限で進められます）</p>' : ''}`
+    ? `<button class="primary sticky" data-act="advance">${nextLabel}</button>${v.setterId !== myId ? '<p class="note center-text">（出題者が不在のため、ホストが代わりに進められます）</p>' : ''}`
     : `<p class="wait">${esc(nameOf(v.setterId))} さんの進行を待っています…</p>`}
   ${legendHtml()}`;
 }
@@ -470,7 +473,7 @@ function resultHtml() {
   const v = ui.v;
   const rows = Object.entries(v.results).sort((a, b) => b[1].pts - a[1].pts);
   const last = v.round >= v.settings.rounds && v.turnPos >= v.order.length - 1;
-  const canGo = v.setterId === myId || isHost();
+  const canGo = canProgress();
   return `
   ${topicHtml()}
   ${revealTable()}

@@ -137,6 +137,9 @@ const validSel = (sel, n) =>
 export function act(g, pid, a, rng = Math.random) {
   const isHost = pid === g.hostId;
   const isSetter = pid === g.setterId;
+  // 公開・進行は出題者のみ。出題者が抜けた・切断中のときだけホストが代行できる
+  const setterAway = !player(g, g.setterId)?.connected;
+  const canProgress = isSetter || (isHost && setterAway);
   switch (a?.type) {
     case 'settings': {
       if (!isHost || g.phase !== 'lobby') return '設定を変更できません';
@@ -189,13 +192,13 @@ export function act(g, pid, a, rng = Math.random) {
       return null;
     }
     case 'advance': {
-      if (g.phase !== 'reveal' || !(isSetter || isHost)) return '進められません';
+      if (g.phase !== 'reveal' || !canProgress) return '進められません';
       if (g.step < g.steps.length) g.step++;
       else finishReveal(g);
       return null;
     }
     case 'next': {
-      if (g.phase !== 'result' || !(isSetter || isHost)) return '進められません';
+      if (g.phase !== 'result' || !canProgress) return '進められません';
       nextTurn(g, rng);
       return null;
     }
