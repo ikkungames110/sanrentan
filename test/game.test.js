@@ -39,10 +39,12 @@ test('公開は出題者のみ。出題者が切断中ならホストが代行�
   const g = createGame('h', 'ホスト');
   addPlayer(g, 'a', 'A');
   addPlayer(g, 'b', 'B');
+  act(g, 'h', { type: 'settings', dobon: true });
   act(g, 'h', { type: 'start' });
   const s = g.setterId;
   act(g, s, { type: 'pickTopic', index: 1 });
   for (const id of g.order) act(g, id, { type: 'submit', sel: id === s ? [0, 1, 2, 3] : [0, 1, 2] });
+  assert.equal(g.phase, 'reveal');
   const other = g.order.find((x) => x !== s && x !== 'h');
   assert.notEqual(act(g, other, { type: 'advance' }), null);
   if (s !== 'h') {
